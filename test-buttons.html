@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoo Management System - Button Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-section { margin: 20px 0; padding: 20px; border: 2px solid #333; }
+        .button { 
+            padding: 10px 20px; 
+            margin: 10px; 
+            border: 2px solid #000; 
+            background: #2563EB; 
+            color: white; 
+            font-weight: bold; 
+            cursor: pointer; 
+        }
+        .button:hover { background: #1d4ed8; }
+        .green { background: #10B981; color: black; }
+        .green:hover { background: #059669; }
+        .orange { background: #F97316; }
+        .orange:hover { background: #ea580c; }
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.5); 
+            z-index: 1000; 
+        }
+        .modal-content { 
+            background: white; 
+            margin: 10% auto; 
+            padding: 20px; 
+            width: 400px; 
+            border: 4px solid #000; 
+        }
+        .form-group { margin: 15px 0; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; }
+        .form-group input { width: 100%; padding: 10px; border: 2px solid #000; }
+        .close { float: right; font-size: 24px; cursor: pointer; }
+        .message { padding: 10px; margin: 10px 0; border: 2px solid #000; }
+        .error { background: #fee; color: #c00; }
+        .success { background: #efe; color: #060; }
+        .loading { background: #eef; color: #006; }
+    </style>
+</head>
+<body>
+    <h1>🦁 ZooKeeper - Button Functionality Test</h1>
+    
+    <div class="test-section">
+        <h2>Navigation Buttons</h2>
+        <button class="button" onclick="scrollToSection('features')">Features</button>
+        <button class="button" onclick="scrollToSection('pricing')">Pricing</button>
+        <button class="button" onclick="scrollToSection('about')">About</button>
+        <button class="button" onclick="showLogin()">Login</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Hero Section Buttons</h2>
+        <button class="button" onclick="showTrial()">START FREE TRIAL</button>
+        <button class="button green" onclick="showDemo()">WATCH DEMO</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Call-to-Action Button</h2>
+        <button class="button orange" onclick="showTrial()">GET STARTED NOW →</button>
+    </div>
+
+    <div class="test-section">
+        <h2>F
