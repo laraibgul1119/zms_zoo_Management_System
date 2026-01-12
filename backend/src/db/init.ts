@@ -2,8 +2,25 @@ import Database from 'better-sqlite3';
 import path from 'path';
 import fs from 'fs';
 
-// Use environment variable for DB path, fallback to local
-const dbPath = process.env.DATABASE_PATH || path.resolve(__dirname, '../../zoo.db');
+// For Render free tier without persistent disk, use /tmp directory
+const getDbPath = () => {
+  if (process.env.DATABASE_PATH) {
+    return process.env.DATABASE_PATH;
+  }
+  
+  // In production without persistent storage, use /tmp
+  if (process.env.NODE_ENV === 'production') {
+    const tmpDir = '/tmp';
+    if (fs.existsSync(tmpDir)) {
+      return path.join(tmpDir, 'zoo.db');
+    }
+  }
+  
+  // Local development
+  return path.resolve(__dirname, '../../zoo.db');
+};
+
+const dbPath = getDbPath();
 
 export const db = new Database(dbPath, { verbose: console.log });
 db.pragma('foreign_keys = ON');

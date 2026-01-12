@@ -2,29 +2,23 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { db } from './db/db';
+import { initDb } from './db/init';
 import { keysToCamel, keysToSnake } from './utils/mapper';
 
 dotenv.config();
 
+// Initialize database on startup
+try {
+    initDb();
+    console.log('✓ Database initialized successfully');
+} catch (error) {
+    console.error('✗ Database initialization failed:', error);
+}
+
 const app = express();
 const port = process.env.PORT || 3001;
 
-const allowedOrigins = [
-  'http://localhost:5173',
-  'http://localhost:3000',
-  process.env.FRONTEND_URL || 'https://your-project-name.vercel.app'
-];
-
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(null, true); // Allow all for now
-    }
-  },
-  credentials: true
-}));
+app.use(cors());
 app.use(express.json());
 
 // Request logger

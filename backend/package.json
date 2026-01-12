@@ -5,10 +5,9 @@
   "main": "dist/index.js",
   "type": "commonjs",
   "scripts": {
-    "start": "node dist/index.js",
+    "start": "node start.js",
     "dev": "nodemon --watch src/ --ext ts --exec ts-node --transpile-only src/index.ts",
     "build": "tsc",
-    "postbuild": "node dist/db/init.js",
     "init-db": "ts-node src/db/init.ts"
   },
   "keywords": [],
