@@ -2,7 +2,10 @@ import Database from 'better-sqlite3';
 import path from 'path';
 import fs from 'fs';
 
-const dbPath = path.resolve(__dirname, '../../zoo.db');
+// Use persistent disk path in production, local path in development
+const dbPath = process.env.NODE_ENV === 'production' 
+    ? '/opt/render/project/src/backend/zoo.db'
+    : path.resolve(__dirname, '../../zoo.db');
 
 export const db = new Database(dbPath, { verbose: console.log });
 db.pragma('foreign_keys = ON');

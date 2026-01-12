@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: zoo-management-backend
+    env: node
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+    disk:
+      name: zoo-data
+      mountPath: /opt/render/project/src/backend
+      sizeGB: 1
