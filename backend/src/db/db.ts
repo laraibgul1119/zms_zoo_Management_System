@@ -7,6 +7,12 @@ const connectionString = process.env.DATABASE_URL;
 
 if (!connectionString) {
   console.warn('⚠️ WARNING: DATABASE_URL is not set. Using local fallback.');
+  console.log('📋 Available environment variable names (checking for typos):');
+  Object.keys(process.env).forEach(key => {
+    if (key.toUpperCase().includes('DATABASE') || key.toUpperCase().includes('URL')) {
+      console.log(`   - ${key}`);
+    }
+  });
 } else {
   try {
     const url = new URL(connectionString);
