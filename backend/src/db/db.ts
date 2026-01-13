@@ -3,24 +3,40 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const connectionString = process.env.DATABASE_URL;
+let connectionString = process.env.DATABASE_URL;
+
+// Extreme diagnostics for Render debugging
+if (connectionString) {
+  const trimmed = connectionString.trim();
+  console.log(`📋 DEBUG: DATABASE_URL exists (Length: ${connectionString.length}, Trimmed Length: ${trimmed.length})`);
+  console.log(`📋 DEBUG: Starts with: "${connectionString.substring(0, 10)}..."`);
+
+  // Strict validation: Must start with postgresql:// or postgres://
+  if (!trimmed.startsWith('postgresql://') && !trimmed.startsWith('postgres://')) {
+    console.error('❌ ERROR: DATABASE_URL does not start with a valid protocol (postgresql://)');
+    connectionString = undefined; // Force fallback
+  } else {
+    try {
+      const url = new URL(trimmed);
+      console.log(`🔌 Database Host detected: ${url.hostname}`);
+      connectionString = trimmed; // Use the fresh trimmed version
+    } catch (e) {
+      console.error('❌ ERROR: DATABASE_URL is not a valid URL format.');
+      connectionString = undefined; // Force fallback
+    }
+  }
+}
 
 if (!connectionString) {
-  console.warn('⚠️ WARNING: DATABASE_URL is not set. Using local fallback.');
-  console.log('📋 Available environment variable names (checking for typos):');
+  console.warn('⚠️ WARNING: Valid DATABASE_URL is not set. Using local fallback.');
+  console.log('📋 Checking for interfering PG* variables:');
   Object.keys(process.env).forEach(key => {
-    if (key.toUpperCase().includes('DATABASE') || key.toUpperCase().includes('URL')) {
-      console.log(`   - ${key}`);
+    if (key.startsWith('PG') || key.includes('DATABASE') || key.includes('URL')) {
+      // Don't log values for security, just keys and value length
+      const val = process.env[key] || '';
+      console.log(`   - ${key} (exists, length: ${val.length})`);
     }
   });
-} else {
-  try {
-    const url = new URL(connectionString);
-    console.log('🔌 Database connection detected.');
-    console.log(`🔌 Database Host: ${url.hostname}`);
-  } catch (e) {
-    console.error('❌ Invalid DATABASE_URL format. Could not parse host.');
-  }
 }
 
 export const pool = new Pool({

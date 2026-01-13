@@ -9,6 +9,9 @@ if (USE_MOCK) {
     console.log('🎭 Using Mock API (no backend required)');
 } else {
     console.log('🌐 Using Real API:', API_BASE_URL);
+    if (API_BASE_URL.includes('localhost') && window.location.hostname !== 'localhost') {
+        console.warn('⚠️ WARNING: You are on a production site but the API is pointing to localhost. Did you forget to set VITE_API_URL in your deployment settings?');
+    }
 }
 
 // Real API implementation
