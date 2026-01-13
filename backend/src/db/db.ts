@@ -8,8 +8,13 @@ const connectionString = process.env.DATABASE_URL;
 if (!connectionString) {
   console.warn('⚠️ WARNING: DATABASE_URL is not set. Using local fallback.');
 } else {
-  console.log('🔌 Database connection string detected.');
-  // Mask the password for security in logs if needed, but for now just acknowledge it's there
+  try {
+    const url = new URL(connectionString);
+    console.log('🔌 Database connection detected.');
+    console.log(`🔌 Database Host: ${url.hostname}`);
+  } catch (e) {
+    console.error('❌ Invalid DATABASE_URL format. Could not parse host.');
+  }
 }
 
 export const pool = new Pool({

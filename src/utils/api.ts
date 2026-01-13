@@ -5,13 +5,10 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api'
 // Use mock API if VITE_USE_MOCK_API is set to 'true'
 const USE_MOCK = import.meta.env.VITE_USE_MOCK_API === 'true';
 
-// If using mock API, export it directly
 if (USE_MOCK) {
-  console.log('🎭 Using Mock API (no backend required)');
-  // @ts-ignore
-  export const api = mockApi;
+    console.log('🎭 Using Mock API (no backend required)');
 } else {
-  console.log('🌐 Using Real API:', API_BASE_URL);
+    console.log('🌐 Using Real API:', API_BASE_URL);
 }
 
 // Real API implementation
@@ -202,7 +199,4 @@ const realApi = {
 };
 
 // Export the appropriate API based on USE_MOCK flag
-if (!USE_MOCK) {
-  // @ts-ignore
-  export const api = realApi;
-}
+export const api = USE_MOCK ? mockApi : realApi;
