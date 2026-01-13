@@ -1,6 +1,21 @@
+import { mockApi } from './mockApi';
+
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
 
-export const api = {
+// Use mock API if VITE_USE_MOCK_API is set to 'true'
+const USE_MOCK = import.meta.env.VITE_USE_MOCK_API === 'true';
+
+// If using mock API, export it directly
+if (USE_MOCK) {
+  console.log('🎭 Using Mock API (no backend required)');
+  // @ts-ignore
+  export const api = mockApi;
+} else {
+  console.log('🌐 Using Real API:', API_BASE_URL);
+}
+
+// Real API implementation
+const realApi = {
     // Auth
     login: (credentials: any) => fetch(`${API_BASE_URL}/auth/login`, {
         method: 'POST',
@@ -185,3 +200,9 @@ export const api = {
     // Dashboard Stats
     getDashboardStats: () => fetch(`${API_BASE_URL}/dashboard/stats`).then(res => res.json()),
 };
+
+// Export the appropriate API based on USE_MOCK flag
+if (!USE_MOCK) {
+  // @ts-ignore
+  export const api = realApi;
+}

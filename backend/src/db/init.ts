@@ -1,34 +1,9 @@
-import Database from 'better-sqlite3';
-import path from 'path';
-import fs from 'fs';
+import { pool } from './db';
 
-// For Render free tier without persistent disk, use /tmp directory
-const getDbPath = () => {
-  if (process.env.DATABASE_PATH) {
-    return process.env.DATABASE_PATH;
-  }
-  
-  // In production without persistent storage, use /tmp
-  if (process.env.NODE_ENV === 'production') {
-    const tmpDir = '/tmp';
-    if (fs.existsSync(tmpDir)) {
-      return path.join(tmpDir, 'zoo.db');
-    }
-  }
-  
-  // Local development
-  return path.resolve(__dirname, '../../zoo.db');
-};
-
-const dbPath = getDbPath();
-
-export const db = new Database(dbPath, { verbose: console.log });
-db.pragma('foreign_keys = ON');
-
-export const initDb = () => {
+export const initDb = async () => {
     const schema = `
         CREATE TABLE IF NOT EXISTS zoo_info (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            id SERIAL PRIMARY KEY,
             name TEXT NOT NULL,
             location TEXT,
             description TEXT,
@@ -96,7 +71,9 @@ export const initDb = () => {
             id TEXT PRIMARY KEY,
             type TEXT NOT NULL,
             price REAL NOT NULL,
-            description TEXT
+            description TEXT,
+            start_date TEXT,
+            discount_percentage REAL
         );
 
         CREATE TABLE IF NOT EXISTS ticket_sales (
@@ -163,10 +140,22 @@ export const initDb = () => {
         );
     `;
 
-    db.exec(schema);
-    console.log('Database initialized successfully.');
+    try {
+        console.log('⏳ Initializing database schema...');
+        await pool.query(schema);
+        console.log('✅ Database schema initialized successfully.');
+    } catch (err) {
+        console.error('❌ Error initializing database:', err);
+        if (err instanceof Error) {
+            console.error('Error Details:', err.message);
+            if ('code' in err) {
+                console.error('Error Code:', (err as any).code);
+            }
+        }
+        throw err;
+    }
 };
 
 if (require.main === module) {
-    initDb();
+    initDb().catch(console.error);
 }

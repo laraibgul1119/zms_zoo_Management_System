@@ -20,55 +20,35 @@ Database data will be lost when:
 
 ---
 
-## Step-by-Step Deployment
+## Simple & Free Deployment Guide (Persistent Database)
 
-### BACKEND (Render) - Already Done ✓
+This project is now configured for a robust free deployment using **PostgreSQL** (for persistent data) instead of SQLite.
 
-Your backend is at: https://zoo-management-backend.onrender.com
+## Phase 1: Database (Neon)
+1.  Go to [Neon.tech](https://neon.tech) and create a free account.
+2.  Create a new project named `zootopia`.
+3.  Copy the **Connection String** (PostgreSQL URL).
 
-**What to do:**
-1. Push the latest code:
-   ```bash
-   git add .
-   git commit -m "Final deployment configuration"
-   git push origin main
-   ```
+## Phase 2: Backend (Render)
+1.  Connect your GitHub repository to [Render](https://render.com).
+2.  Create a new **Web Service**.
+3.  Select the `backend` directory as the root.
+4.  Add these **Environment Variables**:
+    - `DATABASE_URL`: (Paste your Neon Connection String)
+    - `NODE_ENV`: `production`
+5.  Render will automatically build and deploy your backend.
 
-2. Render will auto-deploy
+## Phase 3: Frontend (Vercel)
+1.  Connect your GitHub repository to [Vercel](https://vercel.com).
+2.  Set the Framework Preset to **Vite**.
+3.  Add this **Environment Variable**:
+    - `VITE_API_URL`: (Your Render Backend URL + `/api`)
+4.  Deploy!
 
-3. Wait 2-3 minutes
-
-4. Test: Visit https://zoo-management-backend.onrender.com/api/health
-
-5. If you see `{"status":"ok"}` - Backend is working! ✓
-
----
-
-### FRONTEND (Vercel) - 5 Minutes Setup
-
-1. **Go to https://vercel.com**
-
-2. **Sign up with GitHub** (free)
-
-3. **Click "Add New Project"**
-
-4. **Import your repository**
-
-5. **Configure:**
-   - Framework: Vite (auto-detected)
-   - Root Directory: `./`
-   - Build Command: `npm run build`
-   - Output Directory: `dist`
-
-6. **Add Environment Variable:**
-   - Name: `VITE_API_URL`
-   - Value: `https://zoo-management-backend.onrender.com/api`
-
-7. **Click "Deploy"**
-
-8. **Done!** Your app is live at: `https://your-project.vercel.app`
-
----
+## Why This is Better
+- **Persistence**: SQLite data on Render's free tier is lost whenever the server restarts. PostgreSQL (Neon) stores your data permanently.
+- **Reliability**: Separating frontend (Vercel) and backend (Render) ensures better performance and avoids timeout issues.
+- **No Cost**: All these services offer generous free tiers.
 
 ## Testing Your Deployed App
 
