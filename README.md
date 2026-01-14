@@ -557,19 +557,19 @@ docker run -p 3001:3001 --env-file .env zms-backend
 ## 📸 Screenshots
 
 ### Landing Page
-![Landing Page](![image1](image1))
+![Landing Page](image1)
 *Modern neobrutalism design with bold hero section and call-to-action buttons for starting a free trial and watching a demo*
 
 ### Events Management
-![Events Page](![image2](image2))
+![Events Page](image2)
 *Browse and register for upcoming zoo events like Lion Feeding and Ostrich Race with real-time capacity tracking*
 
 ### Ticket Purchase
-![Ticket Purchase](![image3](image3))
+![Ticket Purchase](image3)
 *Easy online ticket booking with multiple pricing options (Adult $25, Child $15, Senior $20, Group $18 per person)*
 
 ### Staff Dashboard
-![Staff Dashboard](![image4](image4))
+![Staff Dashboard](image4)
 *Comprehensive admin dashboard with real-time statistics including total animals, active staff, upcoming events, revenue tracking, health alerts, and recent activity log*
 
 ---
