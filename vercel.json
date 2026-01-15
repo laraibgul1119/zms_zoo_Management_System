@@ -11,6 +11,10 @@
   ],
   "rewrites": [
     {
+      "source": "/api/(.*)",
+      "destination": "https://zms-zoo-management-system.onrender.com/api/(.*)"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

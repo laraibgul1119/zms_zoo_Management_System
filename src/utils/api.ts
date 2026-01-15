@@ -1,6 +1,6 @@
 import { mockApi } from './mockApi';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001/api';
+const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 // Use mock API if VITE_USE_MOCK_API is set to 'true'
 const USE_MOCK = import.meta.env.VITE_USE_MOCK_API === 'true';
